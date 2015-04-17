@@ -522,7 +522,7 @@ end)
 
 -- Modify:
 -- Function Timer, repeats and updates widget values from scripts
-funcTimer = timer({timeout = 30})
+funcTimer = timer({timeout = 1})
 funcTimer:connect_signal("timeout", function()
     cpuheat:set_markup(getHeatStatus())
     gpuheat:set_markup(getGPUHeatStatus())
@@ -533,8 +533,8 @@ cpuheat:set_markup(getHeatStatus())
 gpuheat:set_markup(getGPUHeatStatus())
 volalsa:set_markup(getVolStatus())
 
-awful.util.spawn_with_shell("compton -m --shadow-exclude 'argb && _NET_WM_OPAQUE_REGION@:c'")
-awful.util.spawn_with_shell("redshift")
+awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc &")
+awful.util.spawn_with_shell("redshift-gtk &")
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
