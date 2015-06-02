@@ -573,6 +573,7 @@ awful.util.spawn_with_shell("killall -SIGTERM compton")
 awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc")
 -- Run redshift once only
 awful.util.spawn_with_shell("run_once redshift-gtk &")
+awful.util.spawn_with_shell("run_once nm-applet &")
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
