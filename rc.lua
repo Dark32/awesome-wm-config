@@ -271,7 +271,6 @@ for s = 1, screen.count() do
     right_layout:add(gpuheat)
     right_layout:add(separator)
     right_layout:add(volalsa)
-    right_layout:add(separator)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
