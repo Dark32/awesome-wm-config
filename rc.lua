@@ -102,8 +102,8 @@ awesomemenu = {
 }
 
 settingsmenu = {
-    { "audio", "pavucontrol"},
-    { "nvidia", "nvidia-settings"}
+    { "settings", "gnome-control-center"},
+    { "nvidia", "optirun -b none nvidia-settings -c :8"}
 }
 
 systemmenu = {
@@ -175,6 +175,14 @@ end
 volalsa = wibox.widget.textbox()
 function getVolStatus()
     local fd= io.popen("~/.config/awesome/volume.sh")
+    local status = fd:read()
+    fd:close()
+    return status
+end
+
+battery = wibox.widget.textbox()
+function getBatStatus()
+    local fd= io.popen("~/.config/awesome/battery.sh")
     local status = fd:read()
     fd:close()
     return status
@@ -271,6 +279,8 @@ for s = 1, screen.count() do
     right_layout:add(gpuheat)
     right_layout:add(separator)
     right_layout:add(volalsa)
+    right_layout:add(separator)
+    right_layout:add(battery)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -550,11 +560,13 @@ funcTimer:connect_signal("timeout", function()
     cpuheat:set_markup(getHeatStatus())
     gpuheat:set_markup(getGPUHeatStatus())
     volalsa:set_markup(getVolStatus())
+    battery:set_markup(getBatStatus())
 end)
 funcTimer:start()
 cpuheat:set_markup(getHeatStatus())
 gpuheat:set_markup(getGPUHeatStatus())
 volalsa:set_markup(getVolStatus())
+battery:set_markup(getBatStatus())
 
 -- Kill compton before respawning
 awful.util.spawn_with_shell("killall -SIGTERM compton")
