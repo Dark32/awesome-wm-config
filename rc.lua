@@ -95,24 +95,37 @@ end
 -- {{{ Section: Menu
 -- Create a laucher widget and a main menu
 -- MODIFY:
-myawesomemenu = {
+awesomemenu = {
     { "edit config", "terminator -e 'vim ~/.config/awesome/rc.lua'" },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
 }
 
+settingsmenu = {
+    { "audio", "pavucontrol"},
+    { "nvidia", "nvidia-settings"}
+}
+
 systemmenu = {
-    { "settings", "gnome-control-center"},
     { "lock", "i3lock -c 000000"},
     { "shutdown", "shutdown -h now"},
     { "reboot", "reboot"}
 }
 
-myofficemenu = {
+officemenu = {
     { "writer", "libreoffice --writer"},
     { "calc", "libreoffice --calc"},
     { "impress", "libreoffice --impress"},
     { "draw", "libreoffice --draw"},
+    { "math", "libreoffice --math"},
+    { "dia", "dia"},
+    { "logisim", "/home/timur/.local/share/bin/logisim"},
+}
+
+gamemenu = {
+    { "steam", "steam" },
+    { "steam wine", "playonlinux --run 'Steam'" },
+    { "minecraft", "/home/timur/.local/share/bin/minecraft" },
 }
 
 mymainmenu = awful.menu({ items = {
@@ -120,10 +133,12 @@ mymainmenu = awful.menu({ items = {
     { "web", "firefox"},
     { "files", "nautilus"},
     { "music", "spotify"},
-    { "steam", "steam" },
+    { "videos", "vlc"},
     { "telegram", "telegram" },
-    { "office", myofficemenu},
-    { "awesome", myawesomemenu},
+    { "office", officemenu},
+    { "games", gamemenu},
+    { "awesome", awesomemenu},
+    { "settings", settingsmenu},
     { "system", systemmenu}
 }})
 
@@ -256,7 +271,6 @@ for s = 1, screen.count() do
     right_layout:add(gpuheat)
     right_layout:add(separator)
     right_layout:add(volalsa)
-    right_layout:add(separator)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -346,6 +360,15 @@ awful.key({ }, "XF86MonBrightnessDown", function ()
     awful.util.spawn("xbacklight -dec 10", false) end),
 awful.key({ }, "XF86MonBrightnessUp", function ()
     awful.util.spawn("xbacklight -inc 10", false) end),
+-- Media Controls
+awful.key({ }, "XF86AudioNext", function ()
+    awful.util.spawn("playerctl next &", false) end),
+awful.key({ }, "XF86AudioPrev", function ()
+    awful.util.spawn("playerctl previous &", false) end),
+awful.key({ }, "XF86AudioStop", function ()
+    awful.util.spawn("playerctl stop &", false) end),
+awful.key({ }, "XF86AudioPlay", function ()
+    awful.util.spawn("playerctl play-pause &", false) end),
 -- Volume
 awful.key({ }, "XF86AudioRaiseVolume", function () 
     awful.util.spawn("amixer set Master 5%+ &", false) end),
@@ -533,7 +556,10 @@ cpuheat:set_markup(getHeatStatus())
 gpuheat:set_markup(getGPUHeatStatus())
 volalsa:set_markup(getVolStatus())
 
-awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc &")
+-- Kill compton before respawning
+awful.util.spawn_with_shell("killall -SIGTERM compton")
+awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc")
+-- Run redshift once only
 awful.util.spawn_with_shell("run_once redshift-gtk &")
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
