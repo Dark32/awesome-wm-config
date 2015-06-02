@@ -545,8 +545,8 @@ gpuheat:set_markup(getGPUHeatStatus())
 battery:set_markup(getBatStatus())
 volalsa:set_markup(getVolStatus())
 
-awful.util.spawn_with_shell("compton -m --shadow-exclude 'argb && _NET_WM_OPAQUE_REGION@:c'")
-awful.util.spawn_with_shell("redshift")
+awful.util.spawn_with_shell("compton -m --shadow-exclude")
+awful.util.spawn_with_shell("run_once redshift-gtk")
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
