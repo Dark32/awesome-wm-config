@@ -6,18 +6,18 @@ theme = {}
 
 theme.font          = "sans 8"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#333333"
+theme.bg_normal     = "#00000095"
+theme.bg_focus      = "#22222270"
 theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#333333"
-theme.bg_systray    = theme.bg_normal
+theme.bg_minimize   = "#11111160"
+theme.bg_systray    = "#000000"
 
 theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#000000"
+theme.fg_focus      = "#eeeeee"
 theme.fg_urgent     = "#cc2a36"
-theme.fg_minimize   = "#ffffff"
+theme.fg_minimize   = "#bbbbbb"
 
-theme.border_width  = 5
+theme.border_width  = 2
 theme.border_normal = "#000000"
 theme.border_focus  = "#222222"
 theme.border_marked = "#444444"

@@ -186,7 +186,7 @@ separator = wibox.widget.textbox()
 separator_end = wibox.widget.textbox()
 -- MODIFY:
 separator:set_markup(" / ")
-separator_end:set_markup(" |")
+separator_end:set_markup("|")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -264,7 +264,11 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then
+        right_layout:add(separator_end)
+        right_layout:add(wibox.widget.systray())
+        right_layout:add(separator_end)
+    end
     -- Arrange and modify the widgets you want
     -- MODIFY:
     right_layout:add(mytextclock)
