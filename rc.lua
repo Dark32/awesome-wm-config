@@ -96,7 +96,7 @@ end
 -- Create a laucher widget and a main menu
 -- MODIFY:
 awesomemenu = {
-    { "edit config", "terminator -e 'vim ~/.config/awesome/rc.lua'" },
+    { "edit", "terminator -e 'vim ~/.config/awesome/rc.lua'" },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
 }
@@ -183,8 +183,10 @@ end
 
 -- A seperator between widgets is useful
 separator = wibox.widget.textbox()
+separator_end = wibox.widget.textbox()
 -- MODIFY:
 separator:set_markup(" / ")
+separator_end:set_markup("|")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -262,7 +264,11 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then
+        right_layout:add(separator_end)
+        right_layout:add(wibox.widget.systray())
+        right_layout:add(separator_end)
+    end
     -- Arrange and modify the widgets you want
     -- MODIFY:
     right_layout:add(mytextclock)
@@ -272,6 +278,7 @@ for s = 1, screen.count() do
     right_layout:add(gpuheat)
     right_layout:add(separator)
     right_layout:add(volalsa)
+    right_layout:add(separator_end)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -295,10 +302,8 @@ awful.button({ }, 5, awful.tag.viewprev)
 -- {{{ Section: Key bindings
 globalkeys = awful.util.table.join(
 awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-awful.key({ modkey,           }, "Right",  awful.tag.viewnext       
-),
+awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
 awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-
 awful.key({ modkey,           }, "j",
 function ()
     awful.client.focus.byidx( 1)
@@ -338,7 +343,7 @@ awful.key({ modkey, "Control" }, "l",       function () awful.tag.incncol(-1)   
 awful.key({ modkey,           }, "space",   function () awful.layout.inc(layouts,  1) end),
 awful.key({ modkey, "Shift"   }, "space",   function () awful.layout.inc(layouts, -1) end),
 awful.key({ modkey, "Control" }, "n",       awful.client.restore),
-awful.key({ }, "Print", function ()         awful.util.spawn("scrot -e 'mv $f ~/Pictures/ 2>/dev/null'") end),
+awful.key({                   }, "Print",   function () awful.util.spawn("scrot -e 'mv $f ~/Pictures/ 2>/dev/null'") end),
 awful.key({ modkey, "Shift"   }, "l",       function () awful.util.spawn("i3lock -c 000000") end),
 awful.key({ modkey, "Shift"   }, "f",       function () awful.util.spawn("firefox") end),
 awful.key({ modkey, "Shift"   }, "n",       function () awful.util.spawn("nautilus") end),
@@ -561,7 +566,7 @@ volalsa:set_markup(getVolStatus())
 
 -- Kill compton before respawning
 awful.util.spawn_with_shell("killall -SIGTERM compton")
-awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc")
+awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --config ~/.config/compton.conf")
 -- Run redshift once only
 awful.util.spawn_with_shell("run_once redshift-gtk &")
 
