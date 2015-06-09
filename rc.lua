@@ -566,7 +566,7 @@ volalsa:set_markup(getVolStatus())
 
 -- Kill compton before respawning
 awful.util.spawn_with_shell("killall -SIGTERM compton")
-awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc")
+awful.util.spawn_with_shell("compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --config ~/.config/compton.conf")
 -- Run redshift once only
 awful.util.spawn_with_shell("run_once redshift-gtk &")
 
