@@ -95,7 +95,13 @@ end
 -- {{{ Section: Menu
 -- Create a laucher widget and a main menu
 -- MODIFY:
+comptonmenu = {
+    { "kill", "killall -SIGTERM compton" },
+    { "start", "compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --config ~/.config/compton.conf"}
+}
+
 awesomemenu = {
+    { "compton", comptonmenu },
     { "edit", "terminator -e 'vim ~/.config/awesome/rc.lua'" },
     { "restart", awesome.restart },
     { "quit", awesome.quit }
